@@ -92,19 +92,26 @@ const CreateNew = (props) => {
   const author = useField('author')
   const info = useField('info')
 
+  const reset = (e) => {
+    e.preventDefault()
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   const navigate = useNavigate()
 
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content: content.value,
-      author: author.value,
-      info: info.value,
+      content: content.form.value,
+      author: author.form.value,
+      info: info.form.value,
       votes: 0
     })
     navigate('/')
-    props.setNotification(`a new anecdote '${content.value}' created!`)
+    props.setNotification(`a new anecdote '${content.form.value}' created!`)
     setTimeout(() => props.setNotification(null), 5000)
   }
 
@@ -114,17 +121,18 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input { ...content } />
+          <input { ...content.form } />
         </div>
         <div>
           author
-          <input { ...author } />
+          <input { ...author.form } />
         </div>
         <div>
           url for more info
-          <input { ...info } />
+          <input { ...info.form } />
         </div>
         <button>create</button>
+        <button onClick={reset}>reset</button>
       </form>
     </div>
   )
